@@ -10,8 +10,8 @@ export default function Hero() {
       {/* Background Image with Clean Dark Overlay */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/herobackground.jpg"
-          alt="Ticket to Ocean - Travel Experiences"
+          src="/images/backhero.jpg"
+          alt="Ticket to Africa - Travel Experiences"
           fill
           className="object-cover object-center"
           priority
@@ -35,10 +35,23 @@ export default function Hero() {
               Discover the World's
             </span>
             <span className="relative inline-block">
-              <span className="relative z-10 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#4A8BCF] via-[#7BAEE0] to-[#4A8BCF] leading-[1.1] tracking-tight italic">
+              <span 
+                className="relative z-10 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text leading-[1.1] tracking-tight italic"
+                style={{
+                  background: `linear-gradient(to right, #ffffff, #e8f0e3, #ffffff)`,
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}
+              >
                 Best Travel Experiences
               </span>
-              <span className="absolute -bottom-0.5 left-0 w-full h-1 bg-gradient-to-r from-[#4A8BCF]/50 to-[#4A8BCF]/10 rounded-full blur-sm" />
+              <span 
+                className="absolute -bottom-0.5 left-0 w-full h-1 rounded-full blur-sm"
+                style={{
+                  background: `linear-gradient(to right, #ffffff80, #274e131A)`
+                }}
+              />
             </span>
           </h1>
 
@@ -57,9 +70,15 @@ export default function Hero() {
       </div>
 
       {/* Scroll Indicator - Positioned at bottom of section */}
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-white/25 hover:text-[#4A8BCF]/50 transition-colors cursor-pointer z-10">
+      <div 
+        className="absolute bottom-2 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 transition-colors cursor-pointer z-10"
+        style={{ color: '#ffffff80' }}
+      >
         <div className="w-4 h-6 border border-white/15 rounded-full flex justify-center p-1">
-          <div className="w-0.5 h-1.5 bg-white/40 rounded-full animate-bounce" />
+          <div 
+            className="w-0.5 h-1.5 rounded-full animate-bounce"
+            style={{ backgroundColor: '#ffffff' }}
+          />
         </div>
       </div>
     </section>

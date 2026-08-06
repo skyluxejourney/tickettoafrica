@@ -329,7 +329,7 @@ export default function SearchEngine() {
               <X size={14} />
             </button>
           )}
-          {/* Hints Dropdown - Wider */}
+          {/* Hints Dropdown - Positioned Above */}
           {showLeavingHints && filteredLeaving.length > 0 && (
             <div className="absolute bottom-full left-0 w-[280px] mb-1 bg-white shadow-lg border max-h-52 overflow-y-auto z-[9999] custom-scrollbar" style={{ borderColor: '#e2e8f0' }}>
               {filteredLeaving.map((loc) => (
@@ -394,7 +394,7 @@ export default function SearchEngine() {
               <X size={14} />
             </button>
           )}
-          {/* Hints Dropdown - Wider */}
+          {/* Hints Dropdown - Positioned Above */}
           {showDepartingHints && filteredDeparting.length > 0 && (
             <div className="absolute bottom-full left-0 w-[280px] mb-1 bg-white shadow-lg border max-h-52 overflow-y-auto z-[9999] custom-scrollbar" style={{ borderColor: '#e2e8f0' }}>
               {filteredDeparting.map((loc) => (
@@ -522,7 +522,7 @@ export default function SearchEngine() {
             <span>{passengerCount} {passengerCount === 1 ? 'Passenger' : 'Passengers'}</span>
           </button>
 
-          {/* Passenger Dropdown */}
+          {/* Passenger Dropdown - Positioned Above */}
           {showPassengerDropdown && (
             <div className="absolute bottom-full left-0 mb-1 bg-white shadow-lg border p-4 w-56 z-[9999]" style={{ borderColor: '#e2e8f0' }}>
               <div className="flex items-center justify-between">

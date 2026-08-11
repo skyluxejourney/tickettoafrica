@@ -80,7 +80,7 @@ export default function AirlineHero({ airline }: AirlineHeroProps) {
       <div className="fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-50 group flex items-center gap-3">
 
         {/* Chat Card - appears on hover */}
-        <div className="hidden sm:block w-[260px] rounded-2xl border border-gray-200/80 bg-white/95 backdrop-blur-xl p-4 shadow-[0_20px_60px_rgba(39,78,19,0.18)] opacity-0 translate-x-4 scale-95 pointer-events-none transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:opacity-100 group-hover:translate-x-0 group-hover:scale-100 group-hover:pointer-events-auto will-change-transform">
+        <div className="hidden sm:block w-[260px]  border border-gray-200/80 bg-white/95 backdrop-blur-xl p-4 shadow-[0_20px_60px_rgba(39,78,19,0.18)] opacity-0 translate-x-4 scale-95 pointer-events-none transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:opacity-100 group-hover:translate-x-0 group-hover:scale-100 group-hover:pointer-events-auto will-change-transform">
           <div className="flex items-start gap-3">
             {/* Support Icon */}
             <div className="relative mt-0.5 flex h-10 w-10 items-center justify-center rounded-full bg-[#e8f0e3] group-hover:scale-105 transition-transform duration-300">

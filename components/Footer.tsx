@@ -14,7 +14,8 @@ import ContactModal from "./ContactModal";
 import Link from "next/link";
 import Image from "next/image";
 import { COMPANY, CONTACT, BRAND } from "@/app/constants";
-import { getAllAirlines, AirlineData } from "@/app/airlines/[slug]/constants";
+import { airlinesDataMap } from "@/app/airlines/[slug]/data";
+import type { AirlineData } from "@/app/airlines/[slug]/airlines-data";
 
 export default function Footer() {
   const [showModal, setShowModal] = useState(false);
@@ -27,20 +28,24 @@ export default function Footer() {
     { name: "Contact", href: "#" },
   ];
 
-  // Get top airlines from the airlinesData - limit to 7 for display
-  const allAirlines = getAllAirlines();
-  const topAirlines = allAirlines.slice(0, 7).map((airline: AirlineData) => ({
-    name: airline.name,
-    slug: getSlugFromName(airline.name)
-  }));
-
-  // Helper function to generate slug from airline name
+  // Helper function to generate slug from airline name - with safety check
   function getSlugFromName(name: string): string {
+    if (!name || typeof name !== 'string') return "";
     return name
       .toLowerCase()
       .replace(/\s+/g, '-')
       .replace(/[^a-z0-9-]/g, '');
   }
+
+  // Get top airlines from the airlinesDataMap - limit to 7 for display
+  const allAirlines = Object.values(airlinesDataMap);
+  const topAirlines = allAirlines
+    .filter((airline: AirlineData) => airline.airline?.name) // Filter out any with undefined name
+    .slice(0, 7)
+    .map((airline: AirlineData) => ({
+      name: airline.airline.name,
+      slug: getSlugFromName(airline.airline.name)
+    }));
 
   const handleLinkClick = (e: React.MouseEvent, linkName: string) => {
     e.preventDefault();
@@ -64,7 +69,7 @@ export default function Footer() {
               <div className="flex items-center gap-4 mb-4">
                 <div className="flex-shrink-0">
                   <Image
-                    src={BRAND.logo}
+                    src="/logo/tikiticket.png"
                     alt={BRAND.name}
                     width={56}
                     height={56}
@@ -76,7 +81,7 @@ export default function Footer() {
                     {BRAND.name}
                   </h2>
                   <p className="text-xs font-medium tracking-wider uppercase" style={{ color: '#274e13' }}>
-                    {BRAND.tagline}
+                    {BRAND.tagline || "Travel Assistance"}
                   </p>
                 </div>
               </div>
@@ -175,19 +180,19 @@ export default function Footer() {
               <ul className="space-y-3.5">
                 <li className="flex items-start gap-3 text-sm transition-colors group" style={{ color: '#1a330d99' }}>
                   <Phone size={16} className="flex-shrink-0 mt-0.5 transition-transform" style={{ color: '#274e13' }} />
-                  <span>{CONTACT.phone}</span>
+                  <span>{CONTACT.phone || "+1 (855) 467-8570"}</span>
                 </li>
                 <li className="flex items-start gap-3 text-sm transition-colors group" style={{ color: '#1a330d99' }}>
                   <Mail size={16} className="flex-shrink-0 mt-0.5 transition-transform" style={{ color: '#274e13' }} />
-                  <span>{COMPANY.email}</span>
+                  <span>{COMPANY.email || "support@tickettoafrica.com"}</span>
                 </li>
                 <li className="flex items-start gap-3 text-sm transition-colors group" style={{ color: '#1a330d99' }}>
                   <MapPin size={16} className="flex-shrink-0 mt-0.5 transition-transform" style={{ color: '#274e13' }} />
-                  <span>{COMPANY.address}</span>
+                  <span>{COMPANY.address || "Addis Ababa, Ethiopia"}</span>
                 </li>
                 <li className="flex items-start gap-3 text-sm transition-colors group" style={{ color: '#1a330d99' }}>
                   <Clock size={16} className="flex-shrink-0 mt-0.5 transition-transform" style={{ color: '#274e13' }} />
-                  <span>{CONTACT.supportHours}</span>
+                  <span>{CONTACT.supportHours || "24/7 Support"}</span>
                 </li>
               </ul>
             </div>
@@ -234,7 +239,7 @@ export default function Footer() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs" style={{ color: '#1a330d40' }}>
               <p>
-                &copy; {COMPANY.year} {COMPANY.name}. All rights reserved.
+                &copy; {COMPANY.year || new Date().getFullYear()} {COMPANY.name || BRAND.name}. All rights reserved.
               </p>
               <div className="flex items-center gap-4">
                 <a href="#" className="transition-colors" style={{ color: '#1a330d40' }}>

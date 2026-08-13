@@ -9,6 +9,7 @@ import {
   Clock,
   Award,
   Shield,
+  AlertCircle,
 } from "lucide-react";
 import ContactModal from "./ContactModal";
 import Link from "next/link";
@@ -186,30 +187,57 @@ export default function Footer() {
               </ul>
             </div>
           </div>
-{/* Newsletter Section */}
-<div className="mt-12 pt-8 border-t border-[#274e13]/10">
-  <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-    <div>
-      <h4 className="text-[#1a330d] font-semibold text-base">
-        Subscribe to Our Newsletter
-      </h4>
-      <p className="text-sm text-[#1a330d]/40">
-        Get the best travel deals straight to your inbox
-      </p>
-    </div>
-    <div className="flex w-full sm:w-auto flex-col xs:flex-row sm:flex-row gap-2 sm:gap-0">
-      <input
-        type="email"
-        placeholder="Enter your email"
-        className="flex-1 sm:w-64 px-4 py-2.5 bg-white/80 border border-[#274e13]/20 rounded-lg sm:rounded-l-full sm:rounded-r-none text-[#1a330d] placeholder-[#1a330d]/30 focus:outline-none focus:border-[#274e13] transition-colors text-sm w-full sm:w-auto"
-      />
-      <button className="px-5 py-2.5 bg-gradient-to-r from-[#274e13] to-[#3a6e1a] hover:from-[#3a6e1a] hover:to-[#4a8a2a] text-white rounded-lg sm:rounded-r-full sm:rounded-l-none font-semibold transition-all duration-300 flex items-center justify-center sm:justify-center gap-2 text-sm whitespace-nowrap shadow-lg shadow-[#274e13]/20 w-full sm:w-auto">
-        <Send size={14} />
-        Subscribe
-      </button>
-    </div>
-  </div>
-</div>
+
+          {/* Newsletter Section */}
+          <div className="mt-12 pt-8 border-t border-[#274e13]/10">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div>
+                <h4 className="text-[#1a330d] font-semibold text-base">
+                  Subscribe to Our Newsletter
+                </h4>
+                <p className="text-sm text-[#1a330d]/40">
+                  Get the best travel deals straight to your inbox
+                </p>
+              </div>
+              <div className="flex w-full sm:w-auto flex-col xs:flex-row sm:flex-row gap-2 sm:gap-0">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="flex-1 sm:w-64 px-4 py-2.5 bg-white/80 border border-[#274e13]/20 rounded-lg sm:rounded-l-full sm:rounded-r-none text-[#1a330d] placeholder-[#1a330d]/30 focus:outline-none focus:border-[#274e13] transition-colors text-sm w-full sm:w-auto"
+                />
+                <button className="px-5 py-2.5 bg-gradient-to-r from-[#274e13] to-[#3a6e1a] hover:from-[#3a6e1a] hover:to-[#4a8a2a] text-white rounded-lg sm:rounded-r-full sm:rounded-l-none font-semibold transition-all duration-300 flex items-center justify-center sm:justify-center gap-2 text-sm whitespace-nowrap shadow-lg shadow-[#274e13]/20 w-full sm:w-auto">
+                  <Send size={14} />
+                  Subscribe
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Disclaimer Section - Full Width */}
+        <div 
+          className="w-full"
+          style={{ 
+            backgroundColor: '#1a330d05', 
+            borderTop: '1px solid #274e131A', 
+            borderBottom: '1px solid #274e131A'
+          }}
+        >
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-3.5">
+            <div className="flex items-start gap-2 sm:gap-3">
+              <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5" style={{ color: '#274e13' }} />
+              <p className="text-[10px] sm:text-xs leading-relaxed" style={{ color: '#1a330d99' }}>
+                <span className="font-semibold" style={{ color: '#1a330d' }}>Disclaimer:</span>{" "}
+                This Disclaimer governs the use of the website www.tickettoafrica.com 
+                (the "Website"), operated by Noam Flyers Inc. ("Company," "we," "us," 
+                or "our"), a USA-registered travel company. Ticket to Africa is an 
+                independent online travel agency and is not an airline. We are not 
+                affiliated with, owned by, or operated by any airline. Our role is to 
+                facilitate travel bookings and provide customers with access to available 
+                travel options from airlines and other travel service providers.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Bottom Bar */}

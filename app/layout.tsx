@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import StatCounter from '@/components/StatCounter';
 
 export const metadata: Metadata = {
   title: 'TicketToAfrica | Luxury Travel & Holiday Packages',
@@ -84,6 +85,7 @@ export default function RootLayout({
         `}</style>
       </head>
       <body className="min-h-full bg-white text-gray-900 flex flex-col">
+        <StatCounter />
         {children}
       </body>
     </html>

@@ -20,11 +20,12 @@ export default function Footer() {
   const [showModal, setShowModal] = useState(false);
   const [selectedLink, setSelectedLink] = useState("");
 
+  // Updated Quick Links - Contact Us now links to /contact
   const quickLinks = [
     { name: "Home", href: "/" },
     { name: "About Us", href: "/about" },
     { name: "Disclaimer", href: "/disclaimer" },
-    { name: "Contact Us", href: "#", isModal: true },
+    { name: "Contact Us", href: "/contact" }, // Changed to /contact
     { name: "Site Map", href: "/sitemap" },
   ];
 
@@ -44,14 +45,6 @@ export default function Footer() {
     { name: "Ethiopian Airlines", slug: "ethiopian-airlines" },
     { name: "EgyptAir", slug: "egyptair" },
   ];
-
-  const handleLinkClick = (e: React.MouseEvent, linkName: string, isModal?: boolean) => {
-    if (isModal) {
-      e.preventDefault();
-      setSelectedLink(linkName);
-      setShowModal(true);
-    }
-  };
 
   const closeModal = () => {
     setShowModal(false);
@@ -110,16 +103,7 @@ export default function Footer() {
               <ul className="space-y-2.5">
                 {quickLinks.map((link) => (
                   <li key={link.name}>
-                    {link.isModal ? (
-                      <a
-                        href={link.href}
-                        onClick={(e) => handleLinkClick(e, link.name, true)}
-                        className="text-sm text-[#1a330d]/60 hover:text-[#274e13] transition-colors duration-200 flex items-center gap-2 group cursor-pointer"
-                      >
-                        <span className="w-1 h-1 bg-[#274e13]/40 rounded-full group-hover:bg-[#274e13] transition-colors" />
-                        {link.name}
-                      </a>
-                    ) : link.name === "Home" ? (
+                    {link.name === "Home" ? (
                       <a
                         href={link.href}
                         onClick={(e) => {

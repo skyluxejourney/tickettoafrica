@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchEngine from "./SearchEngine";
 import Image from "next/image";
 import { Phone, Headphones } from "lucide-react";
@@ -9,6 +9,11 @@ import { BRAND, CONTACT } from "@/app/constants";
 
 export default function Hero() {
   const [isHovered, setIsHovered] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden pt-20 sm:pt-24">
@@ -36,10 +41,16 @@ export default function Hero() {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="max-w-6xl mx-auto">
-          {/* Left Aligned Heading & Subtitle */}
+          {/* Left Aligned Heading & Subtitle - Animated from Left */}
           <div className="max-w-3xl">
             {/* Main Heading - Left Aligned */}
-            <h1 className="mb-3 sm:mb-5 text-left">
+            <h1 
+              className={`mb-3 sm:mb-5 text-left transition-all duration-1000 ease-out ${
+                isVisible 
+                  ? 'opacity-100 translate-x-0' 
+                  : 'opacity-0 -translate-x-16'
+              }`}
+            >
               <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1] tracking-tight drop-shadow-[0_2px_30px_rgba(0,0,0,0.5)]">
                 Travel the World
               </span>
@@ -65,14 +76,25 @@ export default function Hero() {
             </h1>
 
             {/* Subtitle - Left Aligned */}
-            <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-2xl mb-6 sm:mb-8 font-light tracking-wide leading-relaxed drop-shadow-[0_2px_20px_rgba(0,0,0,0.4)] text-left">
+            <p 
+              className={`text-white/90 text-sm sm:text-base md:text-lg max-w-2xl mb-6 sm:mb-8 font-light tracking-wide leading-relaxed drop-shadow-[0_2px_20px_rgba(0,0,0,0.4)] text-left transition-all duration-1000 ease-out delay-200 ${
+                isVisible 
+                  ? 'opacity-100 translate-x-0' 
+                  : 'opacity-0 -translate-x-16'
+              }`}
+            >
               Discover the beauty of Africa with journeys that turn your travel dreams into reality.
-              
             </p>
           </div>
 
           {/* Search Engine Component - Centered, Full Width */}
-          <div className="relative z-20 flex justify-center">
+          <div 
+            className={`relative z-20 flex justify-center transition-all duration-1000 ease-out delay-300 ${
+              isVisible 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-12'
+            }`}
+          >
             <div className="w-full">
               <SearchEngine />
             </div>

@@ -1,9 +1,35 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
 import { Users, DollarSign, Lock, Shield, Award, Headphones } from "lucide-react";
 import { BRAND } from "@/app/constants";
 
 export default function WhyTrustSection() {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
   const trustFeatures = [
     {
       icon: Users,
@@ -23,11 +49,20 @@ export default function WhyTrustSection() {
   ];
 
   return (
-    <section className="py-12 sm:py-16 lg:pt-20 lg:py-5" style={{ backgroundColor: '#f5f8f3' }}>
+    <section 
+      ref={sectionRef}
+      className="py-12 sm:py-16 lg:pt-20 lg:py-5 overflow-hidden" 
+      style={{ backgroundColor: '#f5f8f3' }}
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           {/* Heading - Left Aligned */}
-          <div className="mb-8 sm:mb-10">
+          <div 
+            className={`mb-8 sm:mb-10 transition-all duration-700 ease-out ${
+              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+            }`}
+            style={{ transitionDelay: '100ms' }}
+          >
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight" style={{ color: '#1a330d' }}>
               Why Millions Trust
               <br />
@@ -62,17 +97,19 @@ export default function WhyTrustSection() {
                     group
                     bg-white
                     p-5 sm:p-6
-                    transition-all duration-300
+                    transition-all duration-500 ease-out
                     hover:bg-[#f5f8f3]
                     border-r border-[#e2e8f0]
                     hover:shadow-xl
                     hover:z-10
                     relative
                     hover:border-[#ffffff]/30
+                    ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}
                   `}
                   style={{
                     backgroundColor: '#ffffff',
                     borderColor: '#e2e8f0',
+                    transitionDelay: `${200 + index * 150}ms`
                   }}
                 >
                   {/* Icon on the left */}
@@ -121,4 +158,4 @@ export default function WhyTrustSection() {
       </div>
     </section>
   );
-}
+} 

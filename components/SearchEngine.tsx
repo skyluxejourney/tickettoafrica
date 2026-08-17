@@ -159,7 +159,7 @@ export default function SearchEngine() {
     const selected = isDepart ? selectedDepartDate : selectedReturnDate;
 
     return (
-      <div className="bg-white shadow-2xl p-4 w-80 z-[9999] relative border" style={{ borderColor: '#e2e8f0' }}>
+      <div className="bg-white shadow-2xl p-4 w-80 z-[9999] relative border rounded-lg" style={{ borderColor: '#e2e8f0' }}>
         {/* Header with "Choose the Departure" or "Choose the Return" */}
         <div className="text-center mb-3">
           <span className="text-xs font-semibold tracking-wider uppercase" style={{ color: '#274e13' }}>
@@ -247,7 +247,7 @@ export default function SearchEngine() {
   };
 
   return (
-    <div className="bg-white shadow-2xl max-w-6xl mx-auto p-4 relative z-[100] border" style={{ borderColor: '#e2e8f0' }}>
+    <div className="bg-white shadow-2xl max-w-6xl mx-auto p-4 relative z-[100] border rounded-lg" style={{ borderColor: '#e2e8f0' }}>
       {/* Error Message with Red Icon */}
       {errorMessage && (
         <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm flex items-center justify-between animate-in slide-in-from-top-1 duration-200">
@@ -321,7 +321,7 @@ export default function SearchEngine() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
         {/* Leaving From */}
-        <div className="relative lg:col-span-1" ref={leavingRef}>
+        <div className="relative lg:col-span-1 rounded-lg" ref={leavingRef}>
           <div className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10" style={{ color: '#274e13' }}>
             <PlaneTakeoff size={16} className="block" />
           </div>
@@ -334,7 +334,7 @@ export default function SearchEngine() {
               setShowLeavingHints(true);
             }}
             onFocus={() => setShowLeavingHints(true)}
-            className="w-full bg-[#f5f8f3] border pl-10 pr-8 py-3 placeholder-[#94A3B8] focus:outline-none transition-all duration-300 text-sm h-[52px]"
+            className="w-full bg-[#f5f8f3] border pl-10 pr-8 py-3 placeholder-[#94A3B8] focus:outline-none transition-all duration-300 text-sm h-[52px] rounded-lg"
             style={{
               borderColor: '#e2e8f0',
               color: '#1a330d',
@@ -354,7 +354,7 @@ export default function SearchEngine() {
           )}
           {/* Hints Dropdown - Positioned Above */}
           {showLeavingHints && filteredLeaving.length > 0 && (
-            <div className="absolute bottom-full left-0 w-[280px] mb-1 bg-white shadow-lg border max-h-52 overflow-y-auto z-[9999] custom-scrollbar" style={{ borderColor: '#e2e8f0' }}>
+            <div className="absolute bottom-full left-0 w-[280px] mb-1 bg-white shadow-lg border max-h-52 overflow-y-auto z-[9999] custom-scrollbar rounded-lg" style={{ borderColor: '#e2e8f0' }}>
               {filteredLeaving.map((loc) => (
                 <button
                   key={loc.code}
@@ -386,7 +386,7 @@ export default function SearchEngine() {
         </div>
 
         {/* Departing To */}
-        <div className="relative lg:col-span-1" ref={departingRef}>
+        <div className="relative lg:col-span-1 rounded-lg" ref={departingRef}>
           <div className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10" style={{ color: '#274e13' }}>
             <PlaneLanding size={16} className="block" />
           </div>
@@ -399,7 +399,7 @@ export default function SearchEngine() {
               setShowDepartingHints(true);
             }}
             onFocus={() => setShowDepartingHints(true)}
-            className="w-full bg-[#f5f8f3] border pl-10 pr-8 py-3 placeholder-[#94A3B8] focus:outline-none transition-all duration-300 text-sm h-[52px]"
+            className="w-full bg-[#f5f8f3] border pl-10 pr-8 py-3 placeholder-[#94A3B8] focus:outline-none transition-all duration-300 text-sm h-[52px] rounded-lg"
             style={{
               borderColor: '#e2e8f0',
               color: '#1a330d',
@@ -419,7 +419,7 @@ export default function SearchEngine() {
           )}
           {/* Hints Dropdown - Positioned Above */}
           {showDepartingHints && filteredDeparting.length > 0 && (
-            <div className="absolute bottom-full left-0 w-[280px] mb-1 bg-white shadow-lg border max-h-52 overflow-y-auto z-[9999] custom-scrollbar" style={{ borderColor: '#e2e8f0' }}>
+            <div className="absolute bottom-full left-0 w-[280px] mb-1 bg-white shadow-lg border max-h-52 overflow-y-auto z-[9999] custom-scrollbar rounded-lg" style={{ borderColor: '#e2e8f0' }}>
               {filteredDeparting.map((loc) => (
                 <button
                   key={loc.code}
@@ -451,7 +451,7 @@ export default function SearchEngine() {
         </div>
 
         {/* Depart Date */}
-        <div className="relative lg:col-span-1" ref={departCalendarRef}>
+        <div className="relative lg:col-span-1 rounded-lg" ref={departCalendarRef}>
           <div className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10" style={{ color: '#274e13' }}>
             <Calendar size={16} className="block" />
           </div>
@@ -460,7 +460,7 @@ export default function SearchEngine() {
               setShowDepartCalendar(!showDepartCalendar);
               setShowReturnCalendar(false);
             }}
-            className="w-full lg:w-45 bg-[#f5f8f3] border pl-10 pr-8 py-3 text-left focus:outline-none transition-all duration-300 text-sm h-[52px]"
+            className="w-full lg:w-45 bg-[#f5f8f3] border pl-10 pr-8 py-3 text-left focus:outline-none transition-all duration-300 text-sm h-[52px] rounded-lg"
             style={{
               borderColor: '#e2e8f0',
               color: '#1a330d',
@@ -490,7 +490,7 @@ export default function SearchEngine() {
 
         {/* Return Date - Only show for round trip */}
         {tripType === "roundtrip" && (
-          <div className="relative lg:col-span-1" ref={returnCalendarRef}>
+          <div className="relative lg:col-span-1 rounded-lg" ref={returnCalendarRef}>
             <div className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10" style={{ color: '#274e13' }}>
               <Calendar size={16} className="block" />
             </div>
@@ -499,7 +499,7 @@ export default function SearchEngine() {
                 setShowReturnCalendar(!showReturnCalendar);
                 setShowDepartCalendar(false);
               }}
-              className="w-full bg-[#f5f8f3] border pl-10 pr-8 py-3 text-left focus:outline-none transition-all duration-300 text-sm h-[52px]"
+              className="w-full bg-[#f5f8f3] border pl-10 pr-8 py-3 text-left focus:outline-none transition-all duration-300 text-sm h-[52px] rounded-lg"
               style={{
                 borderColor: '#e2e8f0',
                 color: '#1a330d',
@@ -529,13 +529,13 @@ export default function SearchEngine() {
         )}
 
         {/* Custom Passengers Selector */}
-        <div className="relative lg:col-span-1" ref={passengerRef}>
+        <div className="relative lg:col-span-1 rounded-lg" ref={passengerRef}>
           <div className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10" style={{ color: '#274e13' }}>
             <Users size={16} className="block" />
           </div>
           <button
             onClick={() => setShowPassengerDropdown(!showPassengerDropdown)}
-            className="w-full bg-[#f5f8f3] border pl-10 pr-8 py-3 text-left focus:outline-none transition-all duration-300 text-sm h-[52px] flex items-center"
+            className="w-full bg-[#f5f8f3] border pl-10 pr-8 py-3 text-left focus:outline-none transition-all duration-300 text-sm h-[52px] flex items-center rounded-lg"
             style={{
               borderColor: '#e2e8f0',
               color: '#1a330d',
@@ -547,7 +547,7 @@ export default function SearchEngine() {
 
           {/* Passenger Dropdown - Positioned Above */}
           {showPassengerDropdown && (
-            <div className="absolute bottom-full left-0 mb-1 bg-white shadow-lg border p-4 w-56 z-[9999]" style={{ borderColor: '#e2e8f0' }}>
+            <div className="absolute bottom-full left-0 mb-1 bg-white shadow-lg border p-4 w-56 z-[9999] rounded-lg" style={{ borderColor: '#e2e8f0' }}>
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium" style={{ color: '#1a330d' }}>Passengers</span>
                 <div className="flex items-center gap-3">
@@ -579,7 +579,7 @@ export default function SearchEngine() {
           <button
             onClick={handleSearch}
             disabled={isLoading}
-            className={`w-full text-white transition-all duration-300 flex items-center justify-center h-[52px] px-6 ${
+            className={`w-full text-white transition-all duration-300 flex items-center justify-center h-[52px] px-6 rounded-lg ${
               isLoading 
                 ? 'opacity-80 cursor-not-allowed' 
                 : 'hover:scale-[1.02] active:scale-95'

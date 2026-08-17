@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Phone,
   Mail,
@@ -19,13 +19,37 @@ import { COMPANY, CONTACT, BRAND } from "@/app/constants";
 export default function Footer() {
   const [showModal, setShowModal] = useState(false);
   const [selectedLink, setSelectedLink] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
+  const footerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (footerRef.current) {
+      observer.observe(footerRef.current);
+    }
+
+    return () => {
+      if (footerRef.current) {
+        observer.unobserve(footerRef.current);
+      }
+    };
+  }, []);
 
   // Updated Quick Links - Contact Us now links to /contact
   const quickLinks = [
     { name: "Home", href: "/" },
     { name: "About Us", href: "/about" },
     { name: "Disclaimer", href: "/disclaimer" },
-    { name: "Contact Us", href: "/contact" }, // Changed to /contact
+    { name: "Contact Us", href: "/contact" },
     { name: "Site Map", href: "/sitemap" },
   ];
 
@@ -53,14 +77,22 @@ export default function Footer() {
 
   return (
     <>
-      <footer className="bg-[#f5f8f3] text-[#1a330d]/80">
+      <footer 
+        ref={footerRef}
+        className="bg-[#f5f8f3] text-[#1a330d]/80 overflow-hidden"
+      >
         {/* Main Footer */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 xl:gap-8">
             {/* Brand & About */}
-            <div>
+            <div 
+              className={`transition-all duration-700 ease-out ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+              }`}
+              style={{ transitionDelay: '100ms' }}
+            >
               <div className="flex items-center gap-4 mb-4">
-                <div className="flex-shrink-0">
+                <div className="flex-shrink-0 transition-transform duration-300 hover:scale-110">
                   <Image
                     src="/logo/tikiticket.png"
                     alt={BRAND.name}
@@ -70,7 +102,7 @@ export default function Footer() {
                   />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-[#1a330d] tracking-wide font-heading italic">
+                  <h2 className="text-xl font-bold text-[#1a330d] tracking-wide font-heading italic transition-colors duration-300 hover:text-[#274e13]">
                     {BRAND.name}
                   </h2>
                   <p className="text-xs text-[#274e13] font-medium tracking-wider uppercase">
@@ -83,11 +115,11 @@ export default function Footer() {
                 you discover the world with ease and comfort.
               </p>
               <div className="flex items-center gap-3 text-sm text-[#1a330d]/60">
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 transition-all duration-300 hover:scale-105 hover:text-[#274e13]">
                   <Award size={14} className="text-[#274e13]" />
                   <span>5 Years of Trust</span>
                 </div>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 transition-all duration-300 hover:scale-105 hover:text-[#274e13]">
                   <Shield size={14} className="text-[#274e13]" />
                   <span>Secure Booking</span>
                 </div>
@@ -95,14 +127,25 @@ export default function Footer() {
             </div>
 
             {/* Quick Links */}
-            <div>
+            <div 
+              className={`transition-all duration-700 ease-out ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+              }`}
+              style={{ transitionDelay: '200ms' }}
+            >
               <h3 className="text-[#1a330d] font-semibold text-lg mb-4 relative">
                 Quick Links
                 <span className="absolute -bottom-1 left-0 w-8 h-0.5 bg-gradient-to-r from-[#274e13] to-[#ffffff] rounded-full" />
               </h3>
               <ul className="space-y-2.5">
-                {quickLinks.map((link) => (
-                  <li key={link.name}>
+                {quickLinks.map((link, index) => (
+                  <li 
+                    key={link.name}
+                    className={`transition-all duration-500 ease-out ${
+                      isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+                    }`}
+                    style={{ transitionDelay: `${300 + index * 50}ms` }}
+                  >
                     {link.name === "Home" ? (
                       <a
                         href={link.href}
@@ -130,14 +173,25 @@ export default function Footer() {
             </div>
 
             {/* Top Airlines */}
-            <div>
+            <div 
+              className={`transition-all duration-700 ease-out ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+              }`}
+              style={{ transitionDelay: '300ms' }}
+            >
               <h3 className="text-[#1a330d] font-semibold text-lg mb-4 relative">
                 Top Airlines
                 <span className="absolute -bottom-1 left-0 w-8 h-0.5 bg-gradient-to-r from-[#274e13] to-[#ffffff] rounded-full" />
               </h3>
               <ul className="space-y-2.5">
-                {topAirlines.map((airline) => (
-                  <li key={airline.name}>
+                {topAirlines.map((airline, index) => (
+                  <li 
+                    key={airline.name}
+                    className={`transition-all duration-500 ease-out ${
+                      isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+                    }`}
+                    style={{ transitionDelay: `${400 + index * 50}ms` }}
+                  >
                     <Link
                       href={`/airlines/${airline.slug}`}
                       className="text-sm text-[#1a330d]/60 hover:text-[#274e13] transition-colors duration-200 flex items-center gap-2 group"
@@ -151,14 +205,25 @@ export default function Footer() {
             </div>
 
             {/* Legal Links */}
-            <div>
+            <div 
+              className={`transition-all duration-700 ease-out ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+              }`}
+              style={{ transitionDelay: '400ms' }}
+            >
               <h3 className="text-[#1a330d] font-semibold text-lg mb-4 relative">
                 Legal Links
                 <span className="absolute -bottom-1 left-0 w-8 h-0.5 bg-gradient-to-r from-[#274e13] to-[#ffffff] rounded-full" />
               </h3>
               <ul className="space-y-2.5">
-                {legalLinks.map((link) => (
-                  <li key={link.name}>
+                {legalLinks.map((link, index) => (
+                  <li 
+                    key={link.name}
+                    className={`transition-all duration-500 ease-out ${
+                      isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+                    }`}
+                    style={{ transitionDelay: `${500 + index * 30}ms` }}
+                  >
                     <Link
                       href={link.href}
                       className="text-sm text-[#1a330d]/60 hover:text-[#274e13] transition-colors duration-200 flex items-center gap-2 group"
@@ -173,7 +238,12 @@ export default function Footer() {
           </div>
 
           {/* Newsletter Section */}
-          <div className="mt-12 pt-8 border-t border-[#274e13]/10">
+          <div 
+            className={`mt-12 pt-8 border-t border-[#274e13]/10 transition-all duration-700 ease-out ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            }`}
+            style={{ transitionDelay: '500ms' }}
+          >
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <div>
                 <h4 className="text-[#1a330d] font-semibold text-base">
@@ -200,11 +270,14 @@ export default function Footer() {
 
         {/* Disclaimer Section - Full Width */}
         <div 
-          className="w-full"
+          className={`w-full transition-all duration-700 ease-out ${
+            isVisible ? 'opacity-100' : 'opacity-0'
+          }`}
           style={{ 
             backgroundColor: '#1a330d05', 
             borderTop: '1px solid #274e131A', 
-            borderBottom: '1px solid #274e131A'
+            borderBottom: '1px solid #274e131A',
+            transitionDelay: '600ms'
           }}
         >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-3.5">
@@ -225,22 +298,27 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-[#274e13]/10 bg-[#f5f8f3]/80">
+        <div 
+          className={`border-t border-[#274e13]/10 bg-[#f5f8f3]/80 transition-all duration-700 ease-out ${
+            isVisible ? 'opacity-100' : 'opacity-0'
+          }`}
+          style={{ transitionDelay: '700ms' }}
+        >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#1a330d]/40">
-              <p>
+              <p className="transition-colors duration-300 hover:text-[#274e13]">
                 &copy; {COMPANY.year || new Date().getFullYear()} {COMPANY.name || BRAND.name}. All rights reserved.
               </p>
               <div className="flex items-center gap-4">
-                <Link href="/privacy-policy" className="hover:text-[#274e13] transition-colors">
+                <Link href="/privacy-policy" className="transition-all duration-300 hover:text-[#274e13] hover:scale-105">
                   Privacy Policy
                 </Link>
                 <span className="w-px h-3 bg-[#274e13]/10" />
-                <Link href="/terms-of-service" className="hover:text-[#274e13] transition-colors">
+                <Link href="/terms-of-service" className="transition-all duration-300 hover:text-[#274e13] hover:scale-105">
                   Terms of Service
                 </Link>
                 <span className="w-px h-3 bg-[#274e13]/10" />
-                <Link href="/cookies" className="hover:text-[#274e13] transition-colors">
+                <Link href="/cookies" className="transition-all duration-300 hover:text-[#274e13] hover:scale-105">
                   Cookie Policy
                 </Link>
               </div>

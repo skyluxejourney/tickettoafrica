@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Plane,
   MapPin,
@@ -46,6 +46,30 @@ interface Deal {
 export default function TravelDealsSection() {
   const [selectedDeal, setSelectedDeal] = useState<Deal | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
 
   const deals: Deal[] = [
     {
@@ -169,13 +193,22 @@ export default function TravelDealsSection() {
   };
 
   return (
-    <section className="py-16 sm:py-20 lg:py-20" style={{
-      background: `linear-gradient(to bottom, #f5f8f3, #ffffff)`
-    }}>
+    <section 
+      ref={sectionRef}
+      className="py-16 sm:py-20 lg:py-20 overflow-hidden" 
+      style={{
+        background: `linear-gradient(to bottom, #f5f8f3, #ffffff)`
+      }}
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           {/* Heading - Left Aligned */}
-          <div className="mb-6 sm:mb-8">
+          <div 
+            className={`mb-6 sm:mb-8 transition-all duration-700 ease-out ${
+              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+            }`}
+            style={{ transitionDelay: '100ms' }}
+          >
             <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-4" style={{ backgroundColor: '#e8f0e3' }}>
               <Tag size={16} style={{ color: '#274e13' }} />
               <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase" style={{ color: '#274e13' }}>
@@ -205,7 +238,12 @@ export default function TravelDealsSection() {
           </div>
 
           {/* Content Description - Left Aligned */}
-          <div className="mb-8 sm:mb-10 max-w-full">
+          <div 
+            className={`mb-8 sm:mb-10 max-w-full transition-all duration-700 ease-out ${
+              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+            }`}
+            style={{ transitionDelay: '200ms' }}
+          >
             <p className="text-base sm:text-lg leading-relaxed" style={{ color: '#1a330dB3' }}>
               Discover amazing getaways without breaking the bank! Find travel
               deals under $158 to top destinations worldwide. Enjoy smooth
@@ -216,12 +254,15 @@ export default function TravelDealsSection() {
 
           {/* Deals Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {deals.map((deal) => (
+            {deals.map((deal, index) => (
               <div
                 key={deal.id}
-                className="group bg-white overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col border"
+                className={`group bg-white overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col border transition-all duration-700 ease-out ${
+                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+                }`}
                 style={{
                   borderColor: '#e2e8f0',
+                  transitionDelay: `${300 + index * 100}ms`
                 }}
               >
                 {/* Image */}
@@ -320,14 +361,14 @@ export default function TravelDealsSection() {
                   {/* Book Now Button */}
                   <button
                     onClick={() => handleBookNow(deal)}
-                    className="w-full text-white font-semibold py-2 transition-all duration-300 flex items-center justify-center gap-2 text-sm mt-auto shadow-lg"
+                    className="w-full text-white font-semibold py-2 transition-all duration-300 flex items-center justify-center gap-2 text-sm mt-auto shadow-lg hover:scale-[1.02] active:scale-95"
                     style={{
                       background: `linear-gradient(to right, #274e13, #3a6e1a)`,
                       boxShadow: `0 10px 15px -3px #274e1333`
                     }}
                   >
                     <span>Book Now</span>
-                    <ArrowRight size={14} />
+                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                   </button>
                 </div>
               </div>
@@ -458,7 +499,7 @@ export default function TravelDealsSection() {
                 <div className="flex gap-3 mt-4">
                   <a
                     href={`tel:${CONTACT.phoneRaw}`}
-                    className="flex-1 text-white font-semibold py-3 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
+                    className="flex-1 text-white font-semibold py-3 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:scale-[1.02] active:scale-95"
                     style={{
                       background: `linear-gradient(to right, #274e13, #3a6e1a)`,
                       boxShadow: `0 10px 15px -3px #274e1333`,
@@ -470,7 +511,7 @@ export default function TravelDealsSection() {
                   </a>
                   <button
                     onClick={closeModal}
-                    className="flex-1 font-semibold py-3 transition-colors"
+                    className="flex-1 font-semibold py-3 transition-colors hover:bg-[#e8f0e3]"
                     style={{
                       backgroundColor: '#f5f8f3',
                       color: '#1a330d'

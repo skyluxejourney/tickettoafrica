@@ -1,10 +1,36 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
 import { Phone, ArrowRight, Star, Users, Shield, Tag, Sparkles, Crown, Clock, Globe, Award } from "lucide-react";
 import { COMPANY, CONTACT } from "@/app/constants";
 
 export default function ExclusiveDealsPoster() {
-  // Use static positions instead of Math.random() to avoid hydration mismatches
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
+  // Static positions for particles
   const particles = [
     { left: "10%", top: "20%", delay: "0s", duration: "4s" },
     { left: "25%", top: "45%", delay: "0.5s", duration: "5s" },
@@ -29,10 +55,15 @@ export default function ExclusiveDealsPoster() {
   ];
 
   return (
-    <section className="py-8 sm:py-12 bg-white">
+    <section 
+      ref={sectionRef}
+      className="py-8 sm:py-12 bg-white overflow-hidden"
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div 
-          className="relative overflow-hidden shadow-2xl"
+          className={`relative overflow-hidden shadow-2xl transition-all duration-1000 ease-out ${
+            isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-16 scale-95'
+          }`}
           style={{
             background: `linear-gradient(135deg, #1a330d, #274e13, #3a6e1a)`
           }}
@@ -75,14 +106,24 @@ export default function ExclusiveDealsPoster() {
             {/* Left Content */}
             <div className="flex-1 p-8 sm:p-10 lg:p-12 xl:p-14 text-center lg:text-left">
               {/* Premium Badge */}
-              <div className="inline-flex items-center gap-2 backdrop-blur-sm rounded-full px-5 py-2 mb-6 border border-white/20" style={{ backgroundColor: '#274e1344' }}>
+              <div 
+                className={`inline-flex items-center gap-2 backdrop-blur-sm rounded-full px-5 py-2 mb-6 border border-white/20 transition-all duration-700 ease-out ${
+                  isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+                }`}
+                style={{ backgroundColor: '#274e1344', transitionDelay: '100ms' }}
+              >
                 <Crown size={16} style={{ color: '#e8f0e3' }} />
                 <span className="text-white text-xs font-semibold tracking-[0.2em] uppercase">
                   Premium Travel Deals
                 </span>
               </div>
 
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white !text-white mb-4 leading-tight">
+              <h2 
+                className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white !text-white mb-4 leading-tight transition-all duration-700 ease-out ${
+                  isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+                }`}
+                style={{ transitionDelay: '200ms' }}
+              >
                 Exclusive{" "}
                 <span className="relative">
                   <span className="relative z-10" style={{ color: '#e8f0e3' }}>
@@ -99,13 +140,23 @@ export default function ExclusiveDealsPoster() {
                 </span>
               </h2>
 
-              <p className="text-white/90 !text-white/90 text-sm sm:text-base lg:text-lg max-w-lg mx-auto lg:mx-0 mb-8 leading-relaxed">
+              <p 
+                className={`text-white/90 !text-white/90 text-sm sm:text-base lg:text-lg max-w-lg mx-auto lg:mx-0 mb-8 leading-relaxed transition-all duration-700 ease-out ${
+                  isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+                }`}
+                style={{ transitionDelay: '300ms' }}
+              >
                 Call now and let our professional agents book your ticket at the best price.
                 Limited time offer – don't miss out!
               </p>
 
               {/* Trust Badges - Modern Design */}
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 mb-8">
+              <div 
+                className={`flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 mb-8 transition-all duration-700 ease-out ${
+                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                }`}
+                style={{ transitionDelay: '400ms' }}
+              >
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10" style={{ backgroundColor: '#274e1344' }}>
                   <Star size={14} className="text-yellow-400 fill-yellow-400" />
                   <span className="text-white/90 text-xs font-medium">4.9/5 Rating</span>
@@ -121,7 +172,12 @@ export default function ExclusiveDealsPoster() {
               </div>
 
               {/* CTA Buttons - Modern Design */}
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4">
+              <div 
+                className={`flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 transition-all duration-700 ease-out ${
+                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+                }`}
+                style={{ transitionDelay: '500ms' }}
+              >
                 <a
                   href={`tel:${CONTACT.phoneRaw}`}
                   className="flex items-center gap-3 backdrop-blur-sm rounded-full px-6 sm:px-7 py-3 w-full sm:w-auto transition-all duration-300 border border-white/20 hover:scale-105 group"
@@ -149,7 +205,12 @@ export default function ExclusiveDealsPoster() {
             </div>
 
             {/* Right Image - Airport Baggage */}
-            <div className="relative lg:w-1/2 min-h-[280px] sm:min-h-[320px] lg:min-h-[380px] xl:min-h-[420px]">
+            <div 
+              className={`relative lg:w-1/2 min-h-[280px] sm:min-h-[320px] lg:min-h-[380px] xl:min-h-[420px] transition-all duration-1000 ease-out ${
+                isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+              }`}
+              style={{ transitionDelay: '300ms' }}
+            >
               <img
                 src="/images/exclusive.jpg"
                 alt="Exclusive Travel Deals"
@@ -161,7 +222,12 @@ export default function ExclusiveDealsPoster() {
               />
               
               {/* Modern Floating Badge - Fixed Position */}
-              <div className="absolute top-4 right-4 sm:top-6 sm:right-6 bg-white/95 backdrop-blur-sm p-3 sm:p-4 shadow-2xl rotate-2 z-10">
+              <div 
+                className={`absolute top-4 right-4 sm:top-6 sm:right-6 bg-white/95 backdrop-blur-sm p-3 sm:p-4 shadow-2xl rotate-2 z-10 transition-all duration-700 ease-out ${
+                  isVisible ? 'opacity-100 scale-100 rotate-2' : 'opacity-0 scale-75 -rotate-12'
+                }`}
+                style={{ transitionDelay: '500ms' }}
+              >
                 <div className="text-center">
                   <div className="text-xs font-bold tracking-wider text-[#1a330d]">Save Up To</div>
                   <div className="text-3xl sm:text-4xl font-extrabold" style={{ color: '#274e13' }}>20%</div>
@@ -170,7 +236,12 @@ export default function ExclusiveDealsPoster() {
               </div>
 
               {/* Modern Bottom Badge - Updated with tickettoafrica.com */}
-              <div className="absolute bottom-6 left-4 right-4 backdrop-blur-md px-4 py-2.5 rounded-lg border border-white/20" style={{ backgroundColor: '#1a330d88' }}>
+              <div 
+                className={`absolute bottom-6 left-4 right-4 backdrop-blur-md px-4 py-2.5 rounded-lg border border-white/20 transition-all duration-700 ease-out ${
+                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+                }`}
+                style={{ backgroundColor: '#1a330d88', transitionDelay: '600ms' }}
+              >
                 <div className="flex items-center justify-center sm:justify-start gap-4 text-white flex-wrap">
                   <div className="flex items-center gap-2">
                     <Clock size={14} style={{ color: '#e8f0e3' }} />

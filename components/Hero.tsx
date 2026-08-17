@@ -12,70 +12,70 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden pt-20 sm:pt-24">
-      {/* Background Image with Clean Dark Overlay */}
+      {/* Background Image with Minimal Overlay */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/backhero.jpg"
+          src="/images/backhero.png"
           alt="Ticket to Africa - Travel Experiences"
           fill
           className="object-cover object-center"
           priority
           quality={100}
         />
-        {/* Clean Dark Overlay - No Bluish Tint */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/75" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30" />
-        <div className="absolute inset-0 bg-black/20" />
-        
-        {/* 13% Green Tint on Left Side */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#274e13]/20 to-transparent" />
+        {/* Minimal Dark Overlay for readability */}
+        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
       </div>
 
       {/* Premium Texture Overlay */}
-      <div className="absolute inset-0 z-0 opacity-[0.02] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSIjZmZmIj48cGF0aCBkPSJNMzYgMzRjMCAxLjEuOSAyMiAyIDJzMi0uOSAyLTItLjktMi0yLTIgLTIgLjkgMiAyei0xMiA0YzAgMS4xLjkgMiAyIDJzMi0uOSAyLTItLjktMi0yLTIgLTIgLjkgMiAyeiIvPjwvZz48L3N2Zz4=')]" />
+      <div className="absolute inset-0 z-0 opacity-[0.02] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSIjZmZmIj48cGF0aCBkPSJNMzYgMzRjMCAxLjEuOSAyIDIgMnMyLS45IDItMi0uOS0yLTItMiAtMiAuOS0yIDJ6LTEyIDRjMCAxLjEuOSAyIDIgMnMyLS45IDItMi0uOS0yLTItMiAtMiAuOS0yIDJ6Ii8+PC9nPjwvc3ZnPg==')]" />
 
       {/* Decorative Accent Line - Top */}
       <div className="absolute top-0 left-0 right-0 z-10 h-1 bg-gradient-to-r from-[#274e13] via-white to-[#e8f0e3]" />
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <div className="max-w-6xl mx-auto text-center">
-          {/* Main Heading - Two Lines Only */}
-          <h1 className="max-w-4xl mx-auto mb-3 sm:mb-5">
-            <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1] tracking-tight drop-shadow-[0_2px_30px_rgba(0,0,0,0.5)]">
-              Discover the World's
-            </span>
-            <span className="relative inline-block">
-              <span 
-                className="relative z-10 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text leading-[1.1] tracking-tight italic drop-shadow-[0_2px_30px_rgba(0,0,0,0.3)]"
-                style={{
-                  background: `linear-gradient(to right, #e8f0e3, #ffffff, #d4aa2a)`,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text'
-                }}
-              >
-                Best Travel Experiences
+        <div className="max-w-6xl mx-auto">
+          {/* Left Aligned Heading & Subtitle */}
+          <div className="max-w-3xl">
+            {/* Main Heading - Left Aligned */}
+            <h1 className="mb-3 sm:mb-5 text-left">
+              <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1] tracking-tight drop-shadow-[0_2px_30px_rgba(0,0,0,0.5)]">
+                Travel the World
               </span>
-              <span 
-                className="absolute -bottom-0.5 left-0 w-full h-1 rounded-full blur-sm"
-                style={{
-                  background: `linear-gradient(to right, #ffffff80, #274e131A)`
-                }}
-              />
-            </span>
-          </h1>
+              <span className="relative inline-block">
+                <span 
+                  className="relative z-10 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text leading-[1.1] tracking-tight italic drop-shadow-[0_2px_30px_rgba(0,0,0,0.3)]"
+                  style={{
+                    background: `linear-gradient(to right, #e8f0e3, #ffffff, #d4aa2a)`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
+                  }}
+                >
+                  One Adventure at a Time
+                </span>
+                <span 
+                  className="absolute -bottom-0.5 left-0 w-full h-1 rounded-full blur-sm"
+                  style={{
+                    background: `linear-gradient(to right, #ffffff80, #274e131A)`
+                  }}
+                />
+              </span>
+            </h1>
 
-          {/* Subtitle - Centered */}
-          <p className="text-white/70 text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-6 sm:mb-8 font-light tracking-wide leading-relaxed drop-shadow-[0_2px_20px_rgba(0,0,0,0.4)]">
-            Curated luxury journeys to the most breathtaking destinations.
-            <br className="hidden sm:block" />
-            Let us craft your perfect escape.
-          </p>
+            {/* Subtitle - Left Aligned */}
+            <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-2xl mb-6 sm:mb-8 font-light tracking-wide leading-relaxed drop-shadow-[0_2px_20px_rgba(0,0,0,0.4)] text-left">
+              Discover the beauty of Africa with journeys that turn your travel dreams into reality.
+              
+            </p>
+          </div>
 
-          {/* Search Engine Component */}
-          <div className="relative z-20">
-            <SearchEngine />
+          {/* Search Engine Component - Centered, Full Width */}
+          <div className="relative z-20 flex justify-center">
+            <div className="w-full">
+              <SearchEngine />
+            </div>
           </div>
         </div>
       </div>

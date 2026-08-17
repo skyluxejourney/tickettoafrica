@@ -336,25 +336,23 @@ export default function TravelDealsSection() {
         </div>
       </div>
 
-      {/* Booking Modal */}
+      {/* Booking Modal - Fixed */}
       {isModalOpen && selectedDeal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-          {/* Overlay */}
+          {/* Overlay - No greenish background */}
           <div
-            className="absolute inset-0 backdrop-blur-sm"
-            style={{ backgroundColor: '#1a330d99' }}
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={closeModal}
           />
 
           {/* Modal */}
-          <div className="relative bg-white max-w-md w-full shadow-2xl animate-in slide-in-from-bottom-4 duration-300 border" style={{ borderColor: '#e2e8f0' }}>
-            {/* Close Button */}
+          <div className="relative bg-white max-w-md w-full shadow-2xl animate-in slide-in-from-bottom-4 duration-300 border border-gray-200">
+            {/* Close Button - White */}
             <button
               onClick={closeModal}
-              className="absolute top-4 right-4 transition-colors z-10"
-              style={{ color: '#1a330d66' }}
+              className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center bg-black/50 hover:bg-black/70 transition-colors rounded-full"
             >
-              <X size={24} />
+              <X size={18} className="text-white" />
             </button>
 
             {/* Header */}
@@ -362,11 +360,11 @@ export default function TravelDealsSection() {
               background: `linear-gradient(to right, #274e13, #3a6e1a)`
             }}>
               <div className="flex items-center gap-3">
-                <div className="bg-white/20 p-2">
-                  <Plane size={20} />
+                <div className="bg-white/20 p-2 rounded">
+                  <Plane size={20} className="text-white" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold" style={{ color: '#ffffff' }}>
+                  <h3 className="text-lg font-bold text-white">
                     Book Your Trip
                   </h3>
                   <p className="text-white/80 text-sm">
@@ -409,7 +407,7 @@ export default function TravelDealsSection() {
                 <div className="space-y-3">
                   {/* Phone */}
                   <div className="flex items-center gap-4 p-3 transition-colors" style={{ backgroundColor: '#f5f8f3' }}>
-                    <div className="p-2 text-white" style={{
+                    <div className="p-2 text-white rounded" style={{
                       background: `linear-gradient(to right, #274e13, #3a6e1a)`
                     }}>
                       <Phone size={18} />
@@ -428,7 +426,7 @@ export default function TravelDealsSection() {
 
                   {/* Email */}
                   <div className="flex items-center gap-4 p-3 transition-colors" style={{ backgroundColor: '#f5f8f3' }}>
-                    <div className="p-2 text-white" style={{
+                    <div className="p-2 text-white rounded" style={{
                       background: `linear-gradient(to right, #274e13, #3a6e1a)`
                     }}>
                       <Mail size={18} />

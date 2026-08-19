@@ -49,9 +49,17 @@ export default function WhyTrustSection() {
   ];
 
   return (
-    <section 
+    <section
       ref={sectionRef}
-      className="py-12 sm:py-16 lg:pt-20 lg:py-5 overflow-hidden" 
+      className="
+        pt-[250px]
+        sm:pt-[240px]
+        md:pt-[220px]
+        lg:pt-40
+        
+      
+        overflow-hidden
+      "
       style={{ backgroundColor: '#f5f8f3' }}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -158,4 +166,4 @@ export default function WhyTrustSection() {
       </div>
     </section>
   );
-} 
+}

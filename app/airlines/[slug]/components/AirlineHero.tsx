@@ -30,7 +30,7 @@ export default function AirlineHero({ airline }: AirlineHeroProps) {
       {/* Background Image - Flight with Green & White Theme */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/airlinesback.jpg"
+          src="/images/airlineshero.png"
           alt={`${airlineName} flights - Ticket To Africa`}
           fill
           className="object-cover object-center brightness-[0.9] contrast-[1.05] scale-105 transition-transform duration-[2s] ease-out"
@@ -38,8 +38,8 @@ export default function AirlineHero({ airline }: AirlineHeroProps) {
           quality={100}
         />
         {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/30 to-black/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/30 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/10" />
         <div className="absolute inset-0 bg-black/20" />
         
         {/* 13% Green Tint on Left Side */}

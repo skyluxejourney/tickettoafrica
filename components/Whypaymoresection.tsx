@@ -36,11 +36,11 @@ export default function WhyPayMoreSection() {
       style={{ backgroundColor: '#f5f8f3' }}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-auto mx-auto">
           {/* Heading - Top Left */}
           <div 
             className={`mb-6 sm:mb-8 transition-all duration-700 ease-out ${
-              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
             style={{ transitionDelay: '100ms' }}
           >
@@ -60,9 +60,12 @@ export default function WhyPayMoreSection() {
               with {BRAND.name}
             </h2>
             <div 
-              className="w-16 h-1 rounded-full mt-3"
+              className={`w-16 h-1 rounded-full mt-3 transition-all duration-700 ease-out delay-100 ${
+                isVisible ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'
+              }`}
               style={{
-                background: `linear-gradient(to right, #274e13, #ffffff)`
+                background: `linear-gradient(to right, #274e13, #ffffff)`,
+                transformOrigin: 'left'
               }}
             />
           </div>
@@ -71,7 +74,7 @@ export default function WhyPayMoreSection() {
           <div className="space-y-4 sm:space-y-5 text-sm sm:text-base leading-relaxed" style={{ color: '#1a330dCC' }}>
             <p 
               className={`transition-all duration-700 ease-out ${
-                isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
               style={{ transitionDelay: '150ms' }}
             >
@@ -83,7 +86,7 @@ export default function WhyPayMoreSection() {
 
             <p 
               className={`transition-all duration-700 ease-out ${
-                isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
               style={{ transitionDelay: '200ms' }}
             >
@@ -95,7 +98,7 @@ export default function WhyPayMoreSection() {
 
             <p 
               className={`transition-all duration-700 ease-out ${
-                isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
               style={{ transitionDelay: '250ms' }}
             >
@@ -107,7 +110,7 @@ export default function WhyPayMoreSection() {
 
             <p 
               className={`transition-all duration-700 ease-out ${
-                isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
               style={{ transitionDelay: '300ms' }}
             >
@@ -120,7 +123,7 @@ export default function WhyPayMoreSection() {
 
             <p 
               className={`transition-all duration-700 ease-out ${
-                isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
               style={{ transitionDelay: '350ms' }}
             >
@@ -132,7 +135,7 @@ export default function WhyPayMoreSection() {
 
             <p 
               className={`transition-all duration-700 ease-out ${
-                isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
               style={{ transitionDelay: '400ms' }}
             >
@@ -146,7 +149,7 @@ export default function WhyPayMoreSection() {
 
             <p 
               className={`font-semibold text-base sm:text-lg pt-2 transition-all duration-700 ease-out ${
-                isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
               style={{ color: '#1a330d', transitionDelay: '450ms' }}
             >
@@ -161,12 +164,14 @@ export default function WhyPayMoreSection() {
 
       {/* Full Width Image - Updated with a more relevant booking theme */}
       <div 
-        className="w-full mt-8 sm:mt-10 lg:mt-12"
-        
+        className={`w-full mt-8 sm:mt-10 lg:mt-12 transition-all duration-700 ease-out ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}
+        style={{ transitionDelay: '500ms' }}
       >
         <div className="overflow-hidden relative">
           <img
-            src="/images/bookflight.png"
+            src="/images/flightbanner.png"
             alt={`Book your next flight with ${BRAND.name} - domestic and international travel`}
             className="w-full h-auto object-cover transition-transform duration-700 hover:scale-105"
           />

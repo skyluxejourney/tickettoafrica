@@ -397,7 +397,7 @@ export default function TravelDealsSection() {
             </button>
 
             {/* Header */}
-            <div className="rounded-t-lg p-6 text-white" style={{
+            <div className=" p-6 text-white" style={{
               background: `linear-gradient(to right, #274e13, #3a6e1a)`
             }}>
               <div className="flex items-center gap-3">

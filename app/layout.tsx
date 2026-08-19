@@ -4,6 +4,18 @@ import './globals.css';
 import StatCounter from '@/components/StatCounter';
 import { COMPANY, META } from './constants';
 
+// ✅ Saira Font Import
+const sairaFont = {
+  className: 'saira-font',
+  style: {
+    fontFamily: '"Saira", sans-serif',
+    fontOpticalSizing: 'auto',
+    fontWeight: '400',
+    fontStyle: 'normal',
+    fontVariationSettings: '"wdth" 100',
+  },
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(`https://${COMPANY.domain}`),
   
@@ -95,58 +107,93 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full antialiased">
+    <html lang="en" className="h-full antialiased saira-font">
       <head>
+        {/* ✅ Saira Font from Google Fonts */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet"
         />
         <style>{`
-          /* Libertinus Serif Font Classes */
-          .libertinus-serif-regular {
-            font-family: "Libertinus Serif", serif;
+          /* Saira Font Classes */
+          .saira-font {
+            font-family: "Saira", sans-serif;
+            font-optical-sizing: auto;
             font-weight: 400;
             font-style: normal;
+            font-variation-settings: "wdth" 100;
           }
 
-          .libertinus-serif-semibold {
-            font-family: "Libertinus Serif", serif;
-            font-weight: 600;
+          .saira-light {
+            font-family: "Saira", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 300;
             font-style: normal;
+            font-variation-settings: "wdth" 100;
           }
 
-          .libertinus-serif-bold {
-            font-family: "Libertinus Serif", serif;
-            font-weight: 700;
-            font-style: normal;
-          }
-
-          .libertinus-serif-regular-italic {
-            font-family: "Libertinus Serif", serif;
+          .saira-regular {
+            font-family: "Saira", sans-serif;
+            font-optical-sizing: auto;
             font-weight: 400;
-            font-style: italic;
+            font-style: normal;
+            font-variation-settings: "wdth" 100;
           }
 
-          .libertinus-serif-semibold-italic {
-            font-family: "Libertinus Serif", serif;
+          .saira-medium {
+            font-family: "Saira", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
+            font-variation-settings: "wdth" 100;
+          }
+
+          .saira-semibold {
+            font-family: "Saira", sans-serif;
+            font-optical-sizing: auto;
             font-weight: 600;
-            font-style: italic;
+            font-style: normal;
+            font-variation-settings: "wdth" 100;
           }
 
-          .libertinus-serif-bold-italic {
-            font-family: "Libertinus Serif", serif;
+          .saira-bold {
+            font-family: "Saira", sans-serif;
+            font-optical-sizing: auto;
             font-weight: 700;
-            font-style: italic;
+            font-style: normal;
+            font-variation-settings: "wdth" 100;
           }
 
-          /* Apply Libertinus Serif globally */
+          .saira-extrabold {
+            font-family: "Saira", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 800;
+            font-style: normal;
+            font-variation-settings: "wdth" 100;
+          }
+
+          .saira-black {
+            font-family: "Saira", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 900;
+            font-style: normal;
+            font-variation-settings: "wdth" 100;
+          }
+
+          /* Apply Saira globally */
           body {
-            font-family: "Libertinus Serif", serif;
+            font-family: "Saira", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+            font-variation-settings: "wdth" 100;
           }
 
           h1, h2, h3, h4, h5, h6 {
-            font-family: "Libertinus Serif", serif;
+            font-family: "Saira", sans-serif;
             font-weight: 700;
+            font-optical-sizing: auto;
+            font-variation-settings: "wdth" 100;
           }
         `}</style>
       </head>

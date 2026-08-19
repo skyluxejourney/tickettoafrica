@@ -1,5 +1,3 @@
-// app/airlines/[slug]/data/index.ts
-
 import type { AirlineData } from '../airlines-data';
 import { ethiopianAirlinesData } from './ethiopian-airlines';
 import { egyptAirData } from './egyptair';

@@ -1,3 +1,4 @@
+// app/airlines/[slug]/page.tsx
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Header from "@/components/Header";
@@ -6,6 +7,7 @@ import AirlineHero from "./components/AirlineHero";
 import AirlinePolicy from "./components/AirlinePolicy";
 import AirlineFAQ from "./components/AirlineFAQ";
 import { getAirlineBySlug, getAirlineSlugs, type AirlineData } from "./constants";
+import { COMPANY } from "../../constants";
 
 // Generate static params for all airlines
 export async function generateStaticParams() {
@@ -35,11 +37,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: airline.metadata.description,
       type: "website",
       siteName: airline.airline.name,
+      url: `https://${COMPANY.domain}/airlines/${slug}`,
     },
     twitter: {
       card: "summary_large_image",
       title: airline.metadata.title,
       description: airline.metadata.description,
+    },
+    alternates: {
+      canonical: `https://${COMPANY.domain}/airlines/${slug}`,
     },
   };
 }
@@ -57,11 +63,36 @@ export default async function AirlinePage({ params }: Props) {
     notFound();
   }
 
+  // ✅ AIRLINE SCHEMA MARKUP
+  const airlineSchema = {
+    "@context": "https://schema.org",
+    "@type": "Airline",
+    "name": airline.airline.name,
+    "url": `https://${COMPANY.domain}/airlines/${slug}`,
+    "description": airline.metadata.description,
+    "brand": {
+      "@type": "Brand",
+      "name": airline.airline.name
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": `https://${COMPANY.domain}/flights?airline=${slug}`
+      },
+      "query-input": "required name=airline"
+    }
+  };
+
   return (
     <>
       <Header />
       <main>
-        {/* Pass the entire airline object to all components */}
+        {/* ✅ AIRLINE SCHEMA MARKUP */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(airlineSchema) }}
+        />
         <AirlineHero airline={airline} />
         <AirlinePolicy airline={airline} />
         <AirlineFAQ airline={airline} />

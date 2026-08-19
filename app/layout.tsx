@@ -1,26 +1,92 @@
-import type { Metadata } from 'next';
+// app/layout.tsx
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import StatCounter from '@/components/StatCounter';
+import { COMPANY, META } from './constants';
 
 export const metadata: Metadata = {
-  title: 'TicketToAfrica | Luxury Travel & Holiday Packages',
-  description:
-    'Book luxury holiday packages, flights, hotels and customized trips with TicketToAfrica.',
+  metadataBase: new URL(`https://${COMPANY.domain}`),
+  
+  title: {
+    default: `${COMPANY.name} | Flights, Hotels & Safari Packages to Africa`,
+    template: `%s | ${COMPANY.name}`,
+  },
+  
+  description: 'Book cheap flights, luxury hotels, and customized safari packages to Africa. Best deals on Cape Town, Nairobi, Cairo, Marrakech & more. 24/7 customer support.',
+  
   keywords: [
-    'Skyluxe Journey',
-    'ticket to africa',
-    'travel agency',
-    'holiday packages',
-    'flights',
-    'hotels',
+    COMPANY.name,
+    'cheap flights to Africa',
+    'Africa holiday packages',
     'Cape Town package',
     'Nairobi package',
     'Cairo package',
     'Marrakech package',
+    'safari packages',
+    'Victoria Falls package',
+    'Serengeti safari',
+    'book flights online',
+    'luxury travel agency',
+    'holiday deals',
+    'South Africa travel',
+    'Kenya travel',
+    'Egypt travel',
+    'Morocco travel',
   ],
+  
+  authors: [{ name: COMPANY.name }],
+  
+  openGraph: {
+    title: `${COMPANY.name} | Flights, Hotels & Safari Packages to Africa`,
+    description: 'Book cheap flights, luxury hotels, and customized safari packages to Africa. Best deals on Cape Town, Nairobi, Cairo, Marrakech & more.',
+    url: `https://${COMPANY.domain}`,
+    siteName: COMPANY.name,
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: `${COMPANY.name} - Travel to Africa`,
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  
+  twitter: {
+    card: 'summary_large_image',
+    title: `${COMPANY.name} | Flights, Hotels & Safari Packages to Africa`,
+    description: 'Book cheap flights, luxury hotels, and customized safari packages to Africa.',
+    images: ['/og-image.jpg'],
+  },
+  
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  
+  alternates: {
+    canonical: `https://${COMPANY.domain}`,
+  },
+  
   icons: {
     icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
   },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#ffffff',
 };
 
 export default function RootLayout({

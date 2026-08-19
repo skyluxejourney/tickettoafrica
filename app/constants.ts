@@ -9,13 +9,7 @@ export const COMPANY = {
   year: new Date().getFullYear(),
 };
 
-// Social Media Links
-export const SOCIAL = {
-  facebook: "https://facebook.com/tickettoafrica",
-  twitter: "https://twitter.com/tickettoafrica",
-  instagram: "https://instagram.com/tickettoafrica",
-  youtube: "https://youtube.com/tickettoafrica",
-};
+
 
 // Contact Information
 export const CONTACT = {
@@ -53,7 +47,7 @@ export const META = {
 
 export default {
   COMPANY,
-  SOCIAL,
+
   CONTACT,
   BRAND,
   META,

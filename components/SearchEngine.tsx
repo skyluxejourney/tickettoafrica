@@ -247,7 +247,7 @@ export default function SearchEngine() {
   };
 
   return (
-    <div className="bg-white shadow-2xl max-w-6xl mx-auto p-4 relative z-[100] border rounded-lg" style={{ borderColor: '#e2e8f0' }}>
+    <div className="bg-white shadow-2xl max-w-auto mx-auto p-4 relative z-[100] border rounded-lg" style={{ borderColor: '#e2e8f0' }}>
       {/* Error Message with Red Icon */}
       {errorMessage && (
         <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm flex items-center justify-between animate-in slide-in-from-top-1 duration-200">

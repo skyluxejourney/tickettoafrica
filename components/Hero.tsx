@@ -1,19 +1,111 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import SearchEngine from "./SearchEngine";
 import Image from "next/image";
-import { Phone, Headphones } from "lucide-react";
+import { Phone, Headphones, ChevronLeft, ChevronRight } from "lucide-react";
 import { CONTACT } from "../app/constants";
+
+type Slide = {
+  id: number;
+  type: "image" | "video";
+  src: string;
+};
+
+const slides: Slide[] = [
+  { id: 0, type: "video", src: "/videos/slide-1.mp4" },
+  { id: 1, type: "image", src: "/images/slide-africa-1.jpg" },
+  { id: 2, type: "image", src: "/images/slide_africa_2.jpg" },
+  { id: 3, type: "image", src: "/images/slide-africaa-3.jpg" },
+];
+
+// Content for each slide – first one is the original
+const slideContent = [
+  {
+    before: "Find Your",
+    highlight: "African Adventure",
+    subtitle:
+      "Discover the magic of Africa with journeys that turn your travel dreams into reality. Let us craft your perfect safari escape.",
+  },
+  {
+    before: "Explore the",
+    highlight: "Untamed Wild",
+    subtitle:
+      "Journey through breathtaking landscapes and encounter majestic wildlife in their natural habitat. Your ultimate safari awaits.",
+  },
+  {
+    before: "Discover",
+    highlight: "Rich Cultures",
+    subtitle:
+      "Immerse yourself in the vibrant traditions and warm hospitality of Africa's diverse communities. Experience the heartbeat of the continent.",
+  },
+  {
+    before: "Experience",
+    highlight: "Luxury Safari",
+    subtitle:
+      "Indulge in world-class accommodations and exclusive experiences, from private game drives to starlit dinners in the bush.",
+  },
+];
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Function to start the auto‑advance timer
+  const startAutoAdvance = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 10000);
+  }, []);
+
+  // Start auto‑advance on mount
+  useEffect(() => {
+    startAutoAdvance();
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [startAutoAdvance]);
+
+  // Play/pause video when slide changes
+  useEffect(() => {
+    slides.forEach((slide, index) => {
+      const video = videoRefs.current[index];
+      if (!video) return;
+      if (index === currentSlide && slide.type === "video") {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+  }, [currentSlide]);
+
+  // Initial fade‑in
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 100);
     return () => clearTimeout(timer);
   }, []);
+
+  // Navigate to a specific slide – clears and restarts the timer
+  const goToSlide = useCallback(
+    (index: number) => {
+      // Clear the existing timer
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+      // Set the new slide
+      setCurrentSlide((index + slides.length) % slides.length);
+      // Restart the timer after a short delay to avoid race conditions
+      setTimeout(() => {
+        startAutoAdvance();
+      }, 100);
+    },
+    [startAutoAdvance]
+  );
 
   return (
     <section
@@ -33,26 +125,86 @@ export default function Hero() {
         sm:max-lg:h-[600px]
       "
     >
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/images/backgroundhero.jpg"
-          alt="Ticket to Africa - Travel Experiences"
-          fill
-          className="object-cover object-center"
-          priority
-          quality={100}
-        />
-        {/* Dark overlays - Only for mobile screens */}
-        <div className="absolute inset-0 max-lg:bg-black/10" />
-        <div className="absolute inset-0 max-lg:bg-gradient-to-t max-lg:from-black/10 max-lg:via-black/40 max-lg:to-black/50" />
-        <div className="absolute inset-0 max-lg:bg-black/30" />
+      {/* Slideshow Background */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {slides.map((slide, index) => (
+          <div
+            key={slide.id}
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              index === currentSlide ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            {slide.type === "video" ? (
+              <video
+                ref={(el) => {
+                  videoRefs.current[index] = el;
+                }}
+                src={slide.src}
+                className="h-full w-full object-cover"
+                muted
+                loop
+                playsInline
+              />
+            ) : (
+              <Image
+                src={slide.src}
+                alt={`Hero slide ${index + 1}`}
+                fill
+                className="object-cover object-center"
+                priority={index === 0}
+                quality={100}
+              />
+            )}
+          </div>
+        ))}
+
+        {/* Global dark overlay */}
+        <div className="absolute inset-0 bg-black/30 pointer-events-none z-10" />
+
+        {/* Mobile overlays */}
+        <div className="absolute inset-0 max-lg:bg-black/10 pointer-events-none z-10" />
+        <div className="absolute inset-0 max-lg:bg-gradient-to-t max-lg:from-black/10 max-lg:via-black/40 max-lg:to-black/50 pointer-events-none z-10" />
+        <div className="absolute inset-0 max-lg:bg-black/30 pointer-events-none z-10" />
+
+        {/* Left/Right Arrows */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            goToSlide(currentSlide - 1);
+          }}
+          className="
+            absolute left-4 top-1/2 -translate-y-1/2 z-20
+            bg-black/20 hover:bg-black/40 text-white
+            rounded-full p-2 transition-all duration-300
+            backdrop-blur-sm border border-white/20
+            hover:scale-110 pointer-events-auto
+          "
+          aria-label="Previous slide"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            goToSlide(currentSlide + 1);
+          }}
+          className="
+            absolute right-4 top-1/2 -translate-y-1/2 z-20
+            bg-black/20 hover:bg-black/40 text-white
+            rounded-full p-2 transition-all duration-300
+            backdrop-blur-sm border border-white/20
+            hover:scale-110 pointer-events-auto
+          "
+          aria-label="Next slide"
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
       </div>
 
       {/* Premium Texture Overlay */}
-      <div className="absolute inset-0 z-0 opacity-[0.02] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSIjZmZmIj48cGF0aCBkPSJNMzYgMzRjMCAxLjEuOSAyMiAyIDJzMi0uOSAyLTItLjktMi0yLTIgLTIgLjkgMiAyei0xMiA0YzAgMS4xLjkgMiAyIDJzMi0uOSAyLTItLjktMi0yLTIgLTIgLjkgMiAyeiIvPjwvZz48L3N2Zz4=')]" />
+      <div className="absolute inset-0 z-0 opacity-[0.02] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSIjZmZmIj48cGF0aCBkPSJNMzYgMzRjMCAxLjEuOSAyMiAyIDJzMi0uOSAyLTItLjktMi0yLTIgLTIgLjkgMiAyei0xMiA0YzAgMS4xLjkgMiAyIDJzMi0uOSAyLTItLjktMi0yLTIgLTIgLjkgMiAyeiIvPjwvZz48L3N2Zz4=')] pointer-events-none" />
 
-      {/* Content */}
+      {/* Content – dynamically updated per slide */}
       <div
         className="
           relative
@@ -73,8 +225,7 @@ export default function Hero() {
       >
         <div className="max-w-6xl mx-auto text-center">
           <div className="max-w-3xl mx-auto">
-
-            {/* Main Heading with Shadow */}
+            {/* Main Heading with dynamic text */}
             <h1
               className={`mb-3 transition-all duration-1000 ease-out ${
                 isVisible
@@ -83,7 +234,7 @@ export default function Hero() {
               }`}
             >
               <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white leading-[1.1] tracking-tight drop-shadow-[0_2px_20px_rgba(0,0,0,0.5)]">
-                Find Your{" "}
+                {slideContent[currentSlide].before}{" "}
                 <span
                   className="font-bold text-transparent bg-clip-text italic drop-shadow-[0_2px_25px_rgba(0,0,0,0.4)]"
                   style={{
@@ -93,7 +244,7 @@ export default function Hero() {
                     WebkitTextFillColor: "transparent",
                   }}
                 >
-                  African Adventure
+                  {slideContent[currentSlide].highlight}
                 </span>
               </span>
 
@@ -106,7 +257,7 @@ export default function Hero() {
               />
             </h1>
 
-            {/* Subtitle with Shadow */}
+            {/* Subtitle with dynamic text */}
             <p
               className={`text-white/90 text-xs sm:text-sm md:text-base max-w-xl mx-auto mb-0 font-light tracking-wide leading-relaxed drop-shadow-[0_2px_15px_rgba(0,0,0,0.4)] transition-all duration-1000 ease-out delay-200 ${
                 isVisible
@@ -114,15 +265,14 @@ export default function Hero() {
                   : "opacity-0 translate-y-12"
               }`}
             >
-              Discover the magic of Africa with journeys that turn your travel dreams into reality.
+              {slideContent[currentSlide].subtitle}
               <br className="hidden sm:block" />
-              Let us craft your perfect safari escape.
             </p>
           </div>
         </div>
       </div>
 
-      {/* Search Engine Component */}
+      {/* Search Engine Component (unchanged) */}
       <div
         className={`
           absolute
@@ -158,7 +308,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
+      {/* Scroll Indicator (unchanged) */}
       <div
         className="
           absolute
@@ -183,7 +333,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Professional Floating Call Widget */}
+      {/* Professional Floating Call Widget (unchanged) */}
       <div
         className="
           fixed
@@ -198,7 +348,7 @@ export default function Hero() {
         "
         style={{ pointerEvents: "none" }}
       >
-        {/* Chat Card */}
+        {/* Chat Card (unchanged) */}
         <div
           className={`
             hidden sm:block
@@ -220,8 +370,7 @@ export default function Hero() {
           `}
         >
           <div className="flex items-start gap-3">
-
-            {/* Headphone Icon */}
+            {/* Headphone Icon (unchanged) */}
             <div
               className="
                 relative
@@ -254,9 +403,8 @@ export default function Hero() {
               />
             </div>
 
-            {/* Support Information */}
+            {/* Support Information (unchanged) */}
             <div className="min-w-0 flex-1">
-
               <div className="mb-1 flex items-center gap-2">
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping"></span>
@@ -280,7 +428,7 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Circle Call Button */}
+        {/* Circle Call Button (unchanged) */}
         <a
           href={`tel:${CONTACT.phoneRaw}`}
           aria-label="Call support"
@@ -312,7 +460,7 @@ export default function Hero() {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          {/* Wave Rings */}
+          {/* Wave Rings (unchanged) */}
           <span
             className="
               absolute
@@ -346,7 +494,7 @@ export default function Hero() {
             "
           />
 
-          {/* Inner Glass Circle */}
+          {/* Inner Glass Circle (unchanged) */}
           <span
             className="
               relative
@@ -369,7 +517,7 @@ export default function Hero() {
             <Phone className="h-6 w-6 group-hover:scale-110 transition-transform duration-300" />
           </span>
 
-          {/* Hover Glow */}
+          {/* Hover Glow (unchanged) */}
           <span
             className="
               absolute

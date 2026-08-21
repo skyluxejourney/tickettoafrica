@@ -1,15 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  Menu,
-  X,
-  Phone,
-} from "lucide-react";
-import ContactModal from "./ContactModal";
+import { Menu, X, Phone } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { COMPANY, CONTACT, BRAND } from "@/app/constants";
+import { CONTACT, BRAND } from "@/app/constants";
+import dynamic from "next/dynamic";
+
+// Lazy load ContactModal to reduce initial bundle size
+const ContactModal = dynamic(() => import("./ContactModal"), {
+  ssr: false,
+  loading: () => null,
+});
 
 const navItems = [
   { name: "FLIGHTS", isActive: true },
@@ -30,29 +32,17 @@ export default function Header() {
       const offset = window.scrollY;
       setScrolled(offset > 50);
     };
-
-    window.addEventListener("scroll", handleScroll);
-    // Trigger entrance animation
+    window.addEventListener("scroll", handleScroll, { passive: true });
     setTimeout(() => setIsVisible(true), 100);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleNavClick = (item: { name: string; isActive?: boolean; isContact?: boolean; path?: string }) => {
-    // If it's the Contact Us link, let it navigate normally
-    if (item.isContact) {
-      return;
-    }
-    
-    if (item.isActive) {
-      return;
-    }
-    
+    if (item.isContact) return;
+    if (item.isActive) return;
     setSelectedTab(item.name);
     setShowModal(true);
-    
-    if (open) {
-      setOpen(false);
-    }
+    if (open) setOpen(false);
   };
 
   const closeModal = () => {
@@ -72,10 +62,10 @@ export default function Header() {
       >
         <div
           className={`
-            max-w-[90vw] mx-auto rounded-lg border transition-all duration-500 ease-in-out
+            max-w-[90vw] sm:max-w-[80vw] mx-auto rounded-lg border transition-all duration-500 ease-in-out
             ${scrolled
-              ? "border-[#E2E8F0] bg-white shadow-lg"
-              : "border-[#E2E8F0] bg-white shadow-md"
+              ? "border-[#e8f0e3] bg-white/95 backdrop-blur-sm shadow-lg"
+              : "border-[#e8f0e3] bg-white/95 backdrop-blur-sm shadow-md"
             }
             hover:shadow-xl transition-shadow duration-300
           `}
@@ -87,29 +77,27 @@ export default function Header() {
               ${scrolled ? "py-1.5" : "py-2"}
             `}
           >
-            {/* LOGO - Ticket To Africa with Homepage Link */}
+            {/* LOGO */}
             <Link href="/" className="flex items-center gap-2 sm:gap-3 group cursor-pointer flex-shrink-0">
               <div className="relative flex-shrink-0">
                 <Image
                   src={BRAND.logo}
                   alt={BRAND.name}
-                  width={scrolled ? 30 : 34}
-                  height={scrolled ? 30 : 34}
+                  width={scrolled ? 36 : 38}
+                  height={scrolled ? 36 : 38}
                   className="transition-all duration-500 group-hover:scale-105 group-hover:rotate-3"
                   priority
+                  quality={85}
+                  sizes="34px"
                 />
               </div>
 
               <div>
                 <h1
                   className={`
-                    font-bold
-                    text-[#1a330d]
-                    italic
-                    tracking-tight
-                    leading-tight
+                    font-bold text-[#1a330d] italic tracking-tight leading-tight
                     transition-all duration-500 ease-in-out
-                    ${scrolled ? "text-sm" : "text-base"}
+                    ${scrolled ? "text-[18px]" : "text-[20px]"}
                     group-hover:text-[#274e13] transition-colors duration-300
                   `}
                 >
@@ -117,13 +105,9 @@ export default function Header() {
                 </h1>
                 <p
                   className={`
-                    text-[#3a6e1a]
-                    leading-tight
-                    font-medium
-                    tracking-[0.15em]
-                    uppercase
+                    text-[#3a6e1a] leading-tight font-medium tracking-[0.15em] uppercase
                     transition-all duration-500 ease-in-out
-                    ${scrolled ? "text-[6px]" : "text-[7px]"}
+                    ${scrolled ? "text-[8px]" : "text-[10px]"}
                   `}
                 >
                   {BRAND.tagline}
@@ -139,67 +123,69 @@ export default function Header() {
                   href={item.path || "#"}
                   onClick={() => handleNavClick(item)}
                   className={`
-                    relative
-                    font-medium
-                    transition-all
-                    duration-300
-                    px-2.5
-                    py-1.5
-                    text-xs
-                    tracking-wider
+                    relative font-medium transition-all duration-300
+                    px-2.5 py-1.5
+                    text-xs tracking-wider
                     ${item.isActive
                       ? "text-[#274e13] cursor-default"
                       : "text-[#1a330d]/70 hover:text-[#274e13]"
                     }
                     hover:scale-105 active:scale-95
                     ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"}
-                    ${item.isContact ? "cursor-pointer" : "cursor-pointer"}
+                    will-change-transform
                   `}
                   style={{ transitionDelay: `${index * 50}ms` }}
                 >
                   {item.name}
                   {item.isActive && (
-                    <span className="absolute inset-x-0 -bottom-0.5 h-0.5 bg-gradient-to-r from-[#274e13] to-[#ffffff] rounded-full animate-pulse" />
+                    <span className="absolute inset-x-0 -bottom-0.5 h-0.5 bg-gradient-to-r from-[#274e13] to-[#e8f0e3] rounded-full animate-pulse" />
                   )}
                   {!item.isActive && !item.isContact && (
-                    <span className="absolute inset-x-0 -bottom-0.5 h-0.5 bg-gradient-to-r from-[#274e13] to-[#ffffff] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center rounded-full" />
+                    <span className="absolute inset-x-0 -bottom-0.5 h-0.5 bg-gradient-to-r from-[#274e13] to-[#e8f0e3] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center rounded-full" />
                   )}
                   {item.isContact && (
-                    <span className="absolute inset-x-0 -bottom-0.5 h-0.5 bg-gradient-to-r from-[#274e13] to-[#ffffff] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center rounded-full" />
+                    <span className="absolute inset-x-0 -bottom-0.5 h-0.5 bg-gradient-to-r from-[#274e13] to-[#e8f0e3] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center rounded-full" />
                   )}
                 </Link>
               ))}
             </nav>
 
-            {/* RIGHT SIDE - Call Only Deals */}
+            {/* RIGHT SIDE - Call Only Deals (large, animated) */}
             <div className="hidden lg:flex items-center">
               <a
                 href={`tel:${CONTACT.phoneRaw}`}
                 className={`
-                  flex items-center gap-2
+                  flex items-center gap-3
                   bg-gradient-to-r from-[#1a330d] to-[#274e13]
                   hover:from-[#274e13] hover:to-[#3a6e1a]
                   transition-all duration-300
                   rounded-lg
-                  px-3 py-1.5
+                  px-4 py-2
                   cursor-pointer
                   hover:scale-105 active:scale-95
-                  shadow-md
-                  hover:shadow-lg
+                  shadow-md hover:shadow-lg
+                  border border-white/10
                   group
                   ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"}
+                  will-change-transform
                 `}
                 style={{ transitionDelay: "150ms" }}
               >
-                <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:bg-white/30 group-hover:scale-110">
-                  <Phone size={12} className="text-white transition-transform duration-300 group-hover:rotate-12" />
+                {/* Animated Call Icon */}
+                <div className="relative flex-shrink-0">
+                  <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center transition-all duration-300 group-hover:bg-white/30 group-hover:scale-110">
+                    <Phone size={18} className="text-white transition-transform duration-300 group-hover:rotate-12" />
+                  </div>
+                  {/* Pulsing rings */}
+                  <span className="absolute inset-0 rounded-full border-2 border-white/40 animate-ping group-hover:animate-pulse" />
+                  <span className="absolute inset-[-4px] rounded-full border-2 border-white/20 animate-pulse group-hover:animate-spin-slow" />
                 </div>
-                
+
                 <div className="flex flex-col">
-                  <span className="text-[7px] font-bold text-white/70 tracking-[0.1em] uppercase">
+                  <span className="text-[10px] font-bold text-white/80 tracking-[0.1em] uppercase">
                     Call Only Deals
                   </span>
-                  <span className="text-[10px] font-bold text-white transition-colors duration-300 group-hover:text-[#e8f0e3]">
+                  <span className="text-sm font-bold text-white transition-colors duration-300 group-hover:text-[#e8f0e3]">
                     {CONTACT.phone}
                   </span>
                 </div>
@@ -211,15 +197,13 @@ export default function Header() {
               onClick={() => setOpen(!open)}
               className="
                 lg:hidden
-                text-[#1a330d]
-                hover:text-[#274e13]
-                transition-all
-                duration-300
-                p-1.5
-                rounded-lg
+                text-[#1a330d] hover:text-[#274e13]
+                transition-all duration-300
+                p-1.5 rounded-lg
                 hover:bg-[#e8f0e3]
                 flex-shrink-0
                 hover:scale-110 active:scale-90
+                will-change-transform
               "
               aria-label="Toggle menu"
             >
@@ -239,10 +223,8 @@ export default function Header() {
                 px-4 sm:px-6
                 pb-4
                 space-y-1
-                animate-in
-                slide-in-from-top-2
-                duration-300
-                fade-in
+                animate-in slide-in-from-top-2 duration-300 fade-in
+                will-change-transform
               "
             >
               <div className="pt-2 border-t border-[#e8f0e3]">
@@ -258,21 +240,17 @@ export default function Header() {
                       handleNavClick(item);
                     }}
                     className={`
-                      w-full
-                      flex items-center justify-between
-                      transition-all
-                      duration-300
-                      px-3 py-2.5
-                      rounded-lg
-                      text-sm
-                      font-medium
-                      tracking-wider
+                      w-full flex items-center justify-between
+                      transition-all duration-300
+                      px-3 py-2.5 rounded-lg
+                      text-sm font-medium tracking-wider
                       ${item.isActive
                         ? "text-[#274e13] bg-[#e8f0e3] cursor-default"
                         : "text-[#1a330d]/70 hover:text-[#274e13] hover:bg-[#e8f0e3]"
                       }
                       hover:scale-[1.02] active:scale-95
                       animate-in slide-in-from-left duration-300
+                      will-change-transform
                     `}
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
@@ -282,13 +260,13 @@ export default function Header() {
                     )}
                   </Link>
                 ))}
-                
+
                 <div className="mt-3 pt-3 border-t border-[#e8f0e3]">
                   <a
                     href={`tel:${CONTACT.phoneRaw}`}
-                    className="flex items-center gap-3 bg-gradient-to-r from-[#1a330d] to-[#274e13] rounded-lg px-4 py-3 hover:from-[#274e13] hover:to-[#3a6e1a] transition-all duration-300 hover:scale-[1.02] active:scale-95"
+                    className="flex items-center gap-3 bg-gradient-to-r from-[#1a330d] to-[#274e13] rounded-lg px-4 py-3 hover:from-[#274e13] hover:to-[#3a6e1a] transition-all duration-300 hover:scale-[1.02] active:scale-95 will-change-transform"
                   >
-                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:bg-white/30">
+                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
                       <Phone size={14} className="text-white" />
                     </div>
                     <div>
@@ -307,8 +285,7 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Contact Modal */}
-      <ContactModal 
+      <ContactModal
         isOpen={showModal}
         onClose={closeModal}
         selectedItem={selectedTab}
